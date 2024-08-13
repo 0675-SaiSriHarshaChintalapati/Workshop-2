@@ -10,4 +10,7 @@ class OptionalCLass{
         return Optional.of(50.0);
     }
 }
-
+// a->a.size();
+//(a,b)-> {
+// return a+b
+// };

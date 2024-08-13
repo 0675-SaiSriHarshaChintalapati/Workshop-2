@@ -105,7 +105,6 @@ INSERT INTO categories (category_id, category_name) VALUES
 (3, 'Computers'),
 (4, 'Office Supplies'),
 (5, 'Mobile Devices');
-
 -- 1.Retrieve All Order details for a Specific Customer
 SELECT customers.customer_id, customers.name,orders.order_date,orders.order_id,orders.total_amount
 FROM customers
@@ -129,42 +128,35 @@ SET category_id = CASE
     ELSE price
 END
 WHERE product_id IN (1,2,3,4,5,6,7,8,9,10);
-
 --2.List All Products with Their Categories
 SELECT products.product_id, products.product_name, categories.category_name
 FROM products
 INNER JOIN categories ON products.category_id = categories.category_id;
-
 --3.Retrieve Order Items and Their Product Details for a Specific Order
 SELECT orders.order_id, order_items.product_id, products.product_name, order_items.quantity
 FROM orders
 INNER JOIN order_items ON orders.order_id = order_items.order_id
 INNER JOIN products ON order_items.product_id = products.product_id
 WHERE orders.order_id = '3';
-
 --4.Find Customers Who Have Placed Orders Above a Certain Amount
 SELECT customers.customer_id, customers.name
 FROM customers
 INNER JOIN orders ON customers.customer_id = orders.customer_id
 GROUP BY customers.customer_id, customers.name
 HAVING SUM(orders.total_amount) > 200;
-
 --5.Get the Total Number of Orders and Total Amount Spent by Each Customer
 SELECT customers.customer_id, customers.name, COUNT(orders.order_id) AS total_orders, SUM(orders.total_amount) AS total_spent
 FROM customers
 INNER JOIN orders ON customers.customer_id = orders.customer_id
 GROUP BY customers.customer_id, customers.name;
-
 --6.List Products and Their Total Sales Amount
 SELECT products.product_id, products.product_name, SUM(order_items.quantity * products.price) AS total_sales_amount
 FROM products
 INNER JOIN order_items ON products.product_id = order_items.product_id
 GROUP BY products.product_id, products.product_name;
-
 --7.Update Product Prices Based on a Percentage Increase(10%)
 UPDATE products
 SET price = price * (1 + 10/ 100);
-
 --8.Add a New Column to Track Product Stock Quantity
 ALTER TABLE products
 ADD COLUMN stock_quantity INT;
@@ -183,14 +175,12 @@ SET stock_quantity = CASE
     WHEN product_id = 10 THEN 5
     ELSE price
 end
-
 --9.. Retrieve Customers Who Have Placed More Than 5 Orders
 SELECT customers.customer_id, customers.name, COUNT(orders.order_id) AS total_orders
 FROM customers
 INNER JOIN orders ON customers.customer_id = orders.customer_id
 GROUP BY customers.customer_id, customers.name
 HAVING COUNT(orders.order_id) > 1;
-
 --10.Retrieve the Most Expensive Product in Each Category
 SELECT c.category_name, p.product_name, MAX(p.price) as max_price
 FROM products p
